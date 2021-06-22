@@ -1,18 +1,19 @@
 import pandas
 import json
 import sys
+import os
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
 from watson_developer_cloud.natural_language_understanding_v1 import Features, KeywordsOptions, EmotionOptions
 
 natural_language_understanding = NaturalLanguageUnderstandingV1(
     version='2018-11-16',
-    iam_apikey='Emup9q41iwB7B_jsKVoc3vRjD1RFwS_GnWorTGkj3opd',
-    url='https://gateway.watsonplatform.net/natural-language-understanding/api'
+    iam_apikey=os.environ["APIKEY"],
+    url=os.environ["APIURL"]
 )
 
 data = pandas.read_csv('lyrics/emotion_lyrics.csv')
 
-text_to_translate = "merry christmas to all and to all a good night"
+text_to_translate = "caitlin studies alot"
 
 response = natural_language_understanding.analyze(
         language = 'en',
@@ -38,10 +39,10 @@ for i in range(len(data['lyric'])):
         #print(str(sum_diff) + " || " + data['lyric'][i])
         #if response['keywords'][0]['text'] == data['keywords'][i]:
             #print("OOOH BABEE")
-    if response['keywords'][0]['text'] == data['keywords'][i]:
-        if sum_diff < keyword_diff:
-            keyword_diff = sum_diff
-            keyword_lyric = data['lyric'][i]
+    #if response['keywords'][0]['text'] == data['keywords'][i]:
+    #    if sum_diff < keyword_diff:
+    #        keyword_diff = sum_diff
+    #        keyword_lyric = data['lyric'][i]
         #print("keyword match || " + data['lyric'][i])
 
 print("emotion: " + emotion_lyric)
